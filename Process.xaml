@@ -1,4 +1,4 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Process" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Process" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property sap2010:Annotation.AnnotationText="Transaction item to be processed." Name="in_TransactionItem" Type="InArgument(ui:QueueItem)" />
     <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
@@ -6,10 +6,10 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>438,436</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>438,1679</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
-    <sco:Collection x:TypeArguments="x:String">
+    <scg:List x:TypeArguments="x:String" Capacity="21">
       <x:String>System.Activities</x:String>
       <x:String>System.Activities.Statements</x:String>
       <x:String>System.Activities.Expressions</x:String>
@@ -31,10 +31,10 @@
       <x:String>UiPath.Core</x:String>
       <x:String>UiPath.Core.Activities</x:String>
       <x:String>System.Windows.Markup</x:String>
-    </sco:Collection>
+    </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
-    <sco:Collection x:TypeArguments="AssemblyReference">
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="19">
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
@@ -54,9 +54,15 @@
       <AssemblyReference>UiPath.System.Activities</AssemblyReference>
       <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
       <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
-    </sco:Collection>
+    </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="418,376" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="418,1619" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="taxID" />
+      <Variable x:TypeArguments="x:String" Name="year" />
+      <Variable x:TypeArguments="x:String" Name="yearlyFilePath" />
+      <Variable x:TypeArguments="x:String" Name="comments" />
+    </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -69,6 +75,68 @@
         <InArgument x:TypeArguments="x:String" x:Key="in_acmeURL">[in_Config("ACME_URL").ToString]</InArgument>
         <InArgument x:TypeArguments="x:String" x:Key="in_workItemPartialPath">[in_Config("ACME_WorkItemPartialLink").ToString]</InArgument>
         <InArgument x:TypeArguments="x:String" x:Key="in_WIID">[in_TransactionItem.SpecificContent("WIID").ToString]</InArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke ACME_ExtractTaxID workflow" sap:VirtualizedContainerService.HintSize="376,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="ACME_SYSTEM\ACME_ExtractTaxID.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_TaxID">[taxID]</OutArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke ACME_NavigateToHome workflow" sap:VirtualizedContainerService.HintSize="376,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="ACME_SYSTEM\ACME_NavigateToHome.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <scg:Dictionary x:TypeArguments="x:String, Argument" />
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke ACME-NavigateToMonthlyReport workflow" sap:VirtualizedContainerService.HintSize="376,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="ACME_SYSTEM\ACME-NavigateToMonthlyReport.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <scg:Dictionary x:TypeArguments="x:String, Argument" />
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <Assign sap:VirtualizedContainerService.HintSize="376,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[year]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[(Now.Year-1).ToString]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke ACME_DownloadMonthlyReports workflow" sap:VirtualizedContainerService.HintSize="376,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" UnSafe="False" WorkflowFileName="ACME_SYSTEM\ACME_DownloadMonthlyReports.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_year">[year]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_TaxID">[taxID]</InArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_YearlyFilePath">[yearlyFilePath]</OutArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_tempFolderPath">[in_Config("DownloadFilePath").ToString]</InArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke ACME_NavigateToHome workflow" sap:VirtualizedContainerService.HintSize="376,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_6" UnSafe="False" WorkflowFileName="ACME_SYSTEM\ACME_NavigateToHome.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <scg:Dictionary x:TypeArguments="x:String, Argument" />
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke ACME-NavigateToYearlyReport workflow" sap:VirtualizedContainerService.HintSize="376,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_7" UnSafe="False" WorkflowFileName="ACME_SYSTEM\ACME-NavigateToYearlyReport.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <scg:Dictionary x:TypeArguments="x:String, Argument" />
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke ACME_UploadYearlyReport workflow" sap:VirtualizedContainerService.HintSize="376,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_8" UnSafe="False" WorkflowFileName="ACME_SYSTEM\ACME_UploadYearlyReport.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_taxID">[taxID]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_year">[year]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_yearlyFilePath">[yearlyFilePath]</InArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_confirmationID">[comments]</OutArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke ACME_NavigateToWorkItemDetail workflow" sap:VirtualizedContainerService.HintSize="376,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_9" UnSafe="False" WorkflowFileName="ACME_SYSTEM\ACME_NavigateToWorkItemDetail.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_acmeURL">[in_Config("ACME_URL").ToString]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_workItemPartialPath">[in_Config("ACME_WorkItemPartialLink").ToString]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_WIID">[in_TransactionItem.SpecificContent("WIID").ToString]</InArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke ACME_UpdateWorkItemDetails workflow" sap:VirtualizedContainerService.HintSize="376,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_10" UnSafe="False" WorkflowFileName="ACME_SYSTEM\ACME_UpdateWorkItemDetails.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Comments">[comments]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Status">Completed</InArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
   </Sequence>

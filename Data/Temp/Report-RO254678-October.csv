@@ -1,6 +1,0 @@
-InvoiceNumber,Item,Amount,Tax,Total,Currency,Date
-888218,"Concierge Services",44698,8939.6,53637.6,RON,2017-10-22
-369580,"Professional Services",9389,1877.8,11266.8,CAD,2017-10-27
-274109,"Professional Services",8874,1774.8,10648.8,EUR,2017-10-14
-774107,"Various paper supplies",24673,4934.6,29607.6,RON,2017-10-13
-601057,"Concierge Services",292498,58499.6,350998,USD,2017-10-23

@@ -2,16 +2,16 @@
   <x:Members>
     <x:Property Name="in_year" Type="InArgument(x:String)" />
     <x:Property Name="in_TaxID" Type="InArgument(x:String)" />
-    <x:Property Name="out_YearlyFilePath" Type="InArgument(x:String)" />
+    <x:Property Name="out_YearlyFilePath" Type="OutArgument(x:String)" />
     <x:Property Name="in_tempFolderPath" Type="InArgument(x:String)" />
   </x:Members>
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1081,2094</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>979,3100</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ACME_DownloadMonthlyReports_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
-    <scg:List x:TypeArguments="x:String" Capacity="22">
+    <scg:List x:TypeArguments="x:String" Capacity="44">
       <x:String>System.Activities</x:String>
       <x:String>System.Activities.Statements</x:String>
       <x:String>System.Activities.Expressions</x:String>
@@ -34,10 +34,11 @@
       <x:String>UiPath.Core.Activities</x:String>
       <x:String>System.Windows.Markup</x:String>
       <x:String>System.Xml.Serialization</x:String>
+      <x:String>UiPath.Excel</x:String>
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
-    <scg:List x:TypeArguments="AssemblyReference" Capacity="19">
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="38">
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
@@ -57,9 +58,10 @@
       <AssemblyReference>System.ServiceModel</AssemblyReference>
       <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
       <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="ACME_DownloadMonthlyReports" sap:VirtualizedContainerService.HintSize="1061,2034" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="ACME_DownloadMonthlyReports" sap:VirtualizedContainerService.HintSize="959,3040" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="s:String[]" Default="[{&quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;, &quot;August&quot;, &quot;September&quot;, &quot;October&quot;, &quot;November&quot;, &quot;December&quot;}]" Name="months" />
       <Variable x:TypeArguments="sd:DataTable" Name="yearlyDataDT" />
@@ -71,7 +73,7 @@
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="1019,51" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Starting to download files for TaxID:&quot; + in_TaxID]">
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="917,51" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Starting to download files for TaxID:&quot; + in_TaxID]">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsExpanded">False</x:Boolean>
@@ -79,7 +81,7 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </ui:LogMessage>
-    <Assign sap:VirtualizedContainerService.HintSize="1019,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+    <Assign sap:VirtualizedContainerService.HintSize="917,60" sap2010:WorkflowViewState.IdRef="Assign_1">
       <Assign.To>
         <OutArgument x:TypeArguments="sd:DataTable">[yearlyDataDT]</OutArgument>
       </Assign.To>
@@ -87,19 +89,19 @@
         <InArgument x:TypeArguments="sd:DataTable">[new System.Data.DataTable]</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="1019,1660" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[months]">
+    <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="917,2411" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[months]">
       <ui:ForEach.Body>
         <ActivityAction x:TypeArguments="x:String">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="x:String" Name="month" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="983,1526" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="881,2277" sap2010:WorkflowViewState.IdRef="Sequence_2">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <Assign sap:VirtualizedContainerService.HintSize="941,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+            <Assign sap:VirtualizedContainerService.HintSize="839,60" sap2010:WorkflowViewState.IdRef="Assign_2">
               <Assign.To>
                 <OutArgument x:TypeArguments="x:String">[currentMonth]</OutArgument>
               </Assign.To>
@@ -107,7 +109,7 @@
                 <InArgument x:TypeArguments="x:String">[month]</InArgument>
               </Assign.Value>
             </Assign>
-            <Sequence DisplayName="Type into and click" sap:VirtualizedContainerService.HintSize="941,66" sap2010:WorkflowViewState.IdRef="Sequence_4">
+            <Sequence DisplayName="Type into and click" sap:VirtualizedContainerService.HintSize="839,66" sap2010:WorkflowViewState.IdRef="Sequence_4">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">False</x:Boolean>
@@ -259,21 +261,22 @@
                 </sap:WorkflowViewStateService.ViewState>
               </ui:BrowserScope>
             </Sequence>
-            <Sequence DisplayName="Download File" sap:VirtualizedContainerService.HintSize="941,1228" sap2010:WorkflowViewState.IdRef="Sequence_5">
+            <Sequence DisplayName="Download File" sap:VirtualizedContainerService.HintSize="839,1979" sap2010:WorkflowViewState.IdRef="Sequence_5">
               <Sequence.Variables>
                 <Variable x:TypeArguments="x:Boolean" Name="isNoReportAvailable" />
               </Sequence.Variables>
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
-              <ui:UiElementExists DisplayName="Element Exists No Report Found" Exists="[isNoReportAvailable]" sap:VirtualizedContainerService.HintSize="899,106" sap2010:WorkflowViewState.IdRef="UiElementExists_1">
+              <ui:UiElementExists DisplayName="Element Exists No Report Found" Exists="[isNoReportAvailable]" sap:VirtualizedContainerService.HintSize="797,106" sap2010:WorkflowViewState.IdRef="UiElementExists_1">
                 <ui:UiElementExists.Target>
                   <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" InformativeScreenshot="7371a801e579eb865c200274107b493e" Selector="&lt;wnd app='iexplore.exe' cls='#32770' title='Message from webpage' /&gt;&lt;ctrl name='No report found*' role='*' /&gt;" TimeoutMS="5000" WaitForReady="COMPLETE" />
                 </ui:UiElementExists.Target>
               </ui:UiElementExists>
-              <If Condition="[isNoReportAvailable]" sap:VirtualizedContainerService.HintSize="899,990" sap2010:WorkflowViewState.IdRef="If_1">
+              <If Condition="[isNoReportAvailable]" sap:VirtualizedContainerService.HintSize="797,1741" sap2010:WorkflowViewState.IdRef="If_1">
                 <sap:WorkflowViewStateService.ViewState>
                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -305,16 +308,16 @@
                   </ui:Click>
                 </If.Then>
                 <If.Else>
-                  <Sequence sap:VirtualizedContainerService.HintSize="520,842" sap2010:WorkflowViewState.IdRef="Sequence_9">
+                  <Sequence sap:VirtualizedContainerService.HintSize="418,1593" sap2010:WorkflowViewState.IdRef="Sequence_9">
                     <sap:WorkflowViewStateService.ViewState>
                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
                         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                       </scg:Dictionary>
                     </sap:WorkflowViewStateService.ViewState>
-                    <Sequence DisplayName="Download popup available" sap:VirtualizedContainerService.HintSize="478,66" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                    <Sequence DisplayName="Download popup available" sap:VirtualizedContainerService.HintSize="376,910" sap2010:WorkflowViewState.IdRef="Sequence_6">
                       <sap:WorkflowViewStateService.ViewState>
                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                           <x:Boolean x:Key="IsPinned">False</x:Boolean>
                         </scg:Dictionary>
                       </sap:WorkflowViewStateService.ViewState>
@@ -402,10 +405,10 @@
                         </ui:Click.Target>
                       </ui:Click>
                     </Sequence>
-                    <Sequence DisplayName="Cleanup the download popup" sap:VirtualizedContainerService.HintSize="478,66" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                    <Sequence DisplayName="Cleanup the download popup" sap:VirtualizedContainerService.HintSize="376,143" sap2010:WorkflowViewState.IdRef="Sequence_8">
                       <sap:WorkflowViewStateService.ViewState>
                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                           <x:Boolean x:Key="IsPinned">False</x:Boolean>
                         </scg:Dictionary>
                       </sap:WorkflowViewStateService.ViewState>
@@ -456,7 +459,7 @@
                         </sap:WorkflowViewStateService.ViewState>
                       </ui:OnUiElementAppear>
                     </Sequence>
-                    <Sequence DisplayName="Merge Monthly file in Yearly" sap:VirtualizedContainerService.HintSize="478,538" sap2010:WorkflowViewState.IdRef="Sequence_10">
+                    <Sequence DisplayName="Merge Monthly file in Yearly" sap:VirtualizedContainerService.HintSize="376,368" sap2010:WorkflowViewState.IdRef="Sequence_10">
                       <Sequence.Variables>
                         <Variable x:TypeArguments="sd:DataTable" Name="montlyDataDT" />
                       </Sequence.Variables>
@@ -466,20 +469,9 @@
                           <x:Boolean x:Key="IsPinned">False</x:Boolean>
                         </scg:Dictionary>
                       </sap:WorkflowViewStateService.ViewState>
-                      <ui:ReadCsvFile Encoding="{x:Null}" DataTable="[montlyDataDT]" Delimitator="Comma" DisplayName="Read CSV" FilePath="[tempMonthlyFile]" sap:VirtualizedContainerService.HintSize="436,152" sap2010:WorkflowViewState.IdRef="ReadCsvFile_1" />
-                      <ui:MergeDataTable Destination="[yearlyDataDT]" DisplayName="Merge Data Table" sap:VirtualizedContainerService.HintSize="436,22" sap2010:WorkflowViewState.IdRef="MergeDataTable_1" MissingSchemaAction="Add" Source="[montlyDataDT]" />
-                      <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="436,192" sap2010:WorkflowViewState.IdRef="CommentOut_2">
-                        <ui:CommentOut.Body>
-                          <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="242,114" sap2010:WorkflowViewState.IdRef="Sequence_12">
-                            <sap:WorkflowViewStateService.ViewState>
-                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                              </scg:Dictionary>
-                            </sap:WorkflowViewStateService.ViewState>
-                            <ui:Delete ContinueOnError="{x:Null}" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Delete_1" Path="[tempMonthlyFile]" />
-                          </Sequence>
-                        </ui:CommentOut.Body>
-                      </ui:CommentOut>
+                      <ui:ReadCsvFile Encoding="{x:Null}" DataTable="[montlyDataDT]" Delimitator="Comma" DisplayName="Read CSV" FilePath="[tempMonthlyFile]" sap:VirtualizedContainerService.HintSize="334,152" sap2010:WorkflowViewState.IdRef="ReadCsvFile_1" />
+                      <ui:MergeDataTable Destination="[yearlyDataDT]" DisplayName="Merge Data Table" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="MergeDataTable_1" MissingSchemaAction="Add" Source="[montlyDataDT]" />
+                      <ui:Delete ContinueOnError="{x:Null}" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Delete_1" Path="[tempMonthlyFile]" />
                     </Sequence>
                   </Sequence>
                 </If.Else>
@@ -488,8 +480,23 @@
           </Sequence>
         </ActivityAction>
       </ui:ForEach.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
     </ui:ForEach>
-    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="1019,51" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;All files are downloaded for TaxID:&quot; + in_TaxID]">
+    <Assign sap:VirtualizedContainerService.HintSize="917,60" sap2010:WorkflowViewState.IdRef="Assign_4">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[out_YearlyFilePath]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[Path.Combine(Environment.CurrentDirectory,in_tempFolderPath,"YearlyReport-"+in_TaxID+"-"+in_year+".xlsx")]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:WriteRange AddHeaders="False" DataTable="[yearlyDataDT]" DisplayName="Write Range" sap:VirtualizedContainerService.HintSize="917,115" sap2010:WorkflowViewState.IdRef="WriteRange_1" SheetName="Sheet1" StartingCell="A1" WorkbookPath="[out_YearlyFilePath]" />
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="917,51" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;All files are downloaded for TaxID:&quot; + in_TaxID]">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsExpanded">False</x:Boolean>
